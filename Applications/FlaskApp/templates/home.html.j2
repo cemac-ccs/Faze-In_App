@@ -6,7 +6,7 @@
   <p>
     This online tool presents the backwards simulation of fire haze in indonesia, tracking PM2.5 back to its source [more accurate description once full use of tool is crystalised]</p>
 
-  <p id=p1><br></p>
+  <p id=p1></p><br>
 </div><!-- .entry-content -->
 <img src onerror='init()'>
 <div style="width:75%; margin: 0 auto">
@@ -23,18 +23,18 @@ function init() {
 	createjs.Touch.enable(stage);
 	stage.mouseMoveOutside = true;
 
-  var sheet = new Image();
-  sheet.src = "/static/sprites/spritesheet.png";
-  sheet.style.position = "absolute";
-  sheet.style.left = -9999;             // Image width must not exceed 9999 pixels
-  sheet.style.visibility = "hidden";    // Maybe you can remove this
-  document.body.appendChild(sheet);
-  var sheetHeight = sheet.height;
-  var sheetWidth = sheet.width;
-  var spriteDays = sheetHeight / 600;
-  document.body.removeChild(sheet);     // Removes the image from the DOM (This does not destroy the image element)
+  //var sheet = new Image();
+  //sheet.src = "/static/sprites/spritesheet.png";
+  //sheet.style.position = "absolute";
+  //sheet.style.left = -9999;             // Image width must not exceed 9999 pixels
+  //sheet.style.visibility = "hidden";    // Maybe you can remove this
+  //document.body.appendChild(sheet);
+  //var sheetHeight = sheet.height;
+  //var sheetWidth = sheet.width;
+  var spriteDays = 6;//sheetHeight / 600;
+  //document.body.removeChild(sheet);     // Removes the image from the DOM (This does not destroy the image element)
 
-  document.getElementById('p1').innerHTML = "Animation for the last "+spriteDays+" days"
+  document.getElementById('p1').innerHTML = "Animation for the last "+spriteDays+" days";
 
   var spriteCount = 8 * spriteDays - 1;
 
@@ -50,9 +50,9 @@ function init() {
 
   stage.addChild(animation);
 
-	var slider = new Slider(0, spriteCount-1, 675, 35).set({x: 0, y: 650, value: 0});
+	var slider = new Slider(0, spriteCount-1, 675, 35).set({x: 0, y: 650, value: spriteCount-1});
   slider.on("load", function() {
-    animation.gotoAndStop(0);
+    animation.gotoAndStop(spriteCount-1);
     stage.update();
   });
   slider.on("change", function() {
