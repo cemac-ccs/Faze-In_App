@@ -1,7 +1,7 @@
 """Initialize app."""
 from flask import Flask
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-import flask
+#from werkzeug.middleware.dispatcher import DispatcherMiddleware
+#import flask
 from Applications.FlaskApp.errorpages import *
 
 """Construct the core application."""

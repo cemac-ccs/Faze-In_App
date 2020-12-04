@@ -1,4 +1,5 @@
 from flask import render_template
+from flask import current_app as app
 
 # Error Pages ----------------------------------------------------------------
 def page_not_found(e):
