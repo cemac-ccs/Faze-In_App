@@ -1,4 +1,4 @@
-"""Application entry point."""
+"""Application entry point - Only for use when running locally."""
 from Applications.app import app
 
 
