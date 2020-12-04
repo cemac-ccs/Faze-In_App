@@ -1,0 +1,68 @@
+{% extends 'layout.html.j2' %}
+
+{% block body %}
+
+<div style="text-align: center">
+  <p>
+    This online tool presents the backwards simulation of fire haze in indonesia, tracking PM2.5 back to its source [more accurate description once full use of tool is crystalised]</p>
+
+  <p><center> Animation for the last <i>8</i> days </center></p>
+</div><!-- .entry-content -->
+<img src onerror='init()'>
+<div style="width:75%; margin: 0 auto">
+  <canvas id="mapCanvas" width="900" height="1000"></canvas>
+</div>
+
+<script>
+
+
+function init() {
+
+  var stage = new createjs.Stage("mapCanvas");
+	stage.enableMouseOver();
+	createjs.Touch.enable(stage);
+	stage.mouseMoveOutside = true;
+
+  var sheet = new Image();
+  sheet.src = "/static/sprites/spritesheet.png";
+  sheet.style.position = "absolute";
+  sheet.style.left = -9999;             // Image width must not exceed 9999 pixels
+  sheet.style.visibility = "hidden";    // Maybe you can remove this
+  document.body.appendChild(sheet);
+  var sheetHeight = sheet.height;
+  var sheetWidth = sheet.width;
+  var spriteDays = sheetHeight / 600;
+  document.body.removeChild(sheet);     // Removes the image from the DOM (This does not destroy the image element)
+
+
+  var spriteCount = 8 * spriteDays - 1;
+
+  var spriteData = new createjs.SpriteSheet({
+    framerate:16,
+    "images":["/static/sprites/spritesheet.png"],
+    "frames": {"height": 600, "count": spriteCount, "width": 675},
+    "animations":{
+    }
+  });
+
+  var animation = new createjs.Sprite(spriteData);
+
+  stage.addChild(animation);
+
+	var slider = new Slider(0, spriteCount-1, 675, 35).set({x: 0, y: 650, value: 0});
+  slider.on("load", function() {
+    animation.gotoAndStop(0);
+    stage.update();
+  });
+  slider.on("change", function() {
+    animation.gotoAndStop(slider.value);
+    stage.update();
+  });
+
+	stage.addChild(slider);
+	stage.update();
+
+}
+
+</script>
+{% endblock %}
