@@ -1,21 +1,17 @@
-argon2-cffi @ file:///home/conda/feedstock_root/build_artifacts/argon2-cffi_1605217006346/work
-bcrypt @ file:///home/conda/feedstock_root/build_artifacts/bcrypt_1602546539538/work
-certifi==2020.11.8
-cffi @ file:///tmp/build/80754af9/cffi_1606255099073/work
+-f /usr/share/pip-wheels
 click==7.1.2
-cryptography @ file:///home/conda/feedstock_root/build_artifacts/cryptography_1604179075887/work
 Flask==1.1.2
 Flask-Assets==2.0
 itsdangerous==1.1.0
 Jinja2==2.11.2
-MarkupSafe @ file:///home/conda/feedstock_root/build_artifacts/markupsafe_1602267316845/work
-numpy @ file:///home/conda/feedstock_root/build_artifacts/numpy_1604945996409/work
+MarkupSafe==1.1.1
+numpy==1.19.4
 pandas==1.1.4
 passlib==1.7.4
-pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1593275161868/work
+pysqlite3==0.4.4
 python-dateutil==2.8.1
-pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1604321279890/work
-six @ file:///home/conda/feedstock_root/build_artifacts/six_1590081179328/work
+pytz==2020.4
+six==1.15.0
 webassets==2.0
 Werkzeug==1.0.1
-WTForms @ file:///home/conda/feedstock_root/build_artifacts/wtforms_1596060166590/work
+WTForms==2.3.3
