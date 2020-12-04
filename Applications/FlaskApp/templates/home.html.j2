@@ -52,7 +52,7 @@ function init() {
 
 	var slider = new Slider(0, spriteCount-1, 675, 35).set({x: 0, y: 650, value: spriteCount-1});
   slider.on("load", function() {
-    animation.gotoAndStop(spriteCount-1);
+    animation.gotoAndStop(slider.value);
     stage.update();
   });
   slider.on("change", function() {
