@@ -9,8 +9,9 @@
   <p id=p1></p><br>
 </div><!-- .entry-content -->
 <img src onerror='init()'>
-<div style="width:75%; margin: 0 auto">
-  <canvas id="mapCanvas" width="675" height="720"></canvas>
+<div style="width:75%; margin: auto">
+  <canvas id="mapCanvas" width="675" height="740"></canvas>
+  <p id=p2></p>
 </div>
 
 <script>
@@ -23,16 +24,16 @@ function init() {
 	createjs.Touch.enable(stage);
 	stage.mouseMoveOutside = true;
 
-  //var sheet = new Image();
-  //sheet.src = "/static/sprites/spritesheet.png";
-  //sheet.style.position = "absolute";
-  //sheet.style.left = -9999;             // Image width must not exceed 9999 pixels
-  //sheet.style.visibility = "hidden";    // Maybe you can remove this
-  //document.body.appendChild(sheet);
-  //var sheetHeight = sheet.height;
-  //var sheetWidth = sheet.width;
+  var sheet = new Image();
+  sheet.src = "/static/sprites/spritesheet.png";
+  sheet.style.position = "absolute";
+  sheet.style.left = -9999;             // Image width must not exceed 9999 pixels
+  sheet.style.visibility = "hidden";    // Maybe you can remove this
+  document.body.appendChild(sheet);
+  var sheetHeight = sheet.naturalHeight;
+  var sheetWidth = sheet.naturalWidth;
   var spriteDays = 6;//sheetHeight / 600;
-  //document.body.removeChild(sheet);     // Removes the image from the DOM (This does not destroy the image element)
+  document.body.removeChild(sheet);     // Removes the image from the DOM (This does not destroy the image element)
 
   document.getElementById('p1').innerHTML = "Animation for the last "+spriteDays+" days";
 
@@ -46,17 +47,25 @@ function init() {
     }
   });
 
+  var endOfSprite = spriteCount - 3;
+
   var animation = new createjs.Sprite(spriteData);
 
   stage.addChild(animation);
+  stage.update();
 
-	var slider = new Slider(0, spriteCount-1, 675, 35).set({x: 0, y: 650, value: spriteCount-1});
-  slider.on("load", function() {
-    animation.gotoAndStop(slider.value);
-    stage.update();
-  });
+  var slider = new Slider(0, endOfSprite, 675, 35).set({x: 0, y: 650, value: endOfSprite});
+  stage.update();
+
+  animation.gotoAndStop(slider.value);
+  stage.update();
+  document.getElementById('p2').innerHTML = "Current frame is "+animation.currentFrame+" and slider value is "+slider.value;
+  stage.update();
+
+
   slider.on("change", function() {
     animation.gotoAndStop(slider.value);
+    document.getElementById('p2').innerHTML = "Current frame is "+animation.currentFrame+" and slider value is "+slider.value;
     stage.update();
   });
 
