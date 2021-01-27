@@ -37,7 +37,7 @@ function init() {
 
   document.getElementById('p1').innerHTML = "Animation for the last "+spriteDays+" days";
 
-  var spriteCount = 8 * spriteDays - 1;
+  var spriteCount = 8 * spriteDays;
 
   var spriteData = new createjs.SpriteSheet({
     framerate:16,
@@ -47,7 +47,7 @@ function init() {
     }
   });
 
-  var endOfSprite = spriteCount - 3;
+  var endOfSprite = spriteCount - 1;
 
   var animation = new createjs.Sprite(spriteData);
 
