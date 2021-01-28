@@ -59,15 +59,15 @@ function init() {
 
   animation.gotoAndStop(slider.value);
   stage.update();
-  document.getElementById('p2').innerHTML = "Current frame is "+animation.currentFrame+" and slider value is "+slider.value;
+  //document.getElementById('p2').innerHTML = "Current frame is "+animation.currentFrame+" and slider value is "+slider.value;
   stage.update();
 
 
-  //slider.on("change", function() {
-  //  animation.gotoAndStop(slider.value);
-  //  document.getElementById('p2').innerHTML = "Current frame is "+animation.currentFrame+" and slider value is "+slider.value;
-  //  stage.update();
-  //});
+  slider.on("change", function() {
+    animation.gotoAndStop(slider.value);
+    //document.getElementById('p2').innerHTML = "Current frame is "+animation.currentFrame+" and slider value is "+slider.value;
+    stage.update();
+  });
 
 	stage.addChild(slider);
 	stage.update();
