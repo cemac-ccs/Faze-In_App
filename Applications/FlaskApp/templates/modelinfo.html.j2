@@ -1,0 +1,28 @@
+{% extends 'layout.html.j2' %}
+{% block body %}
+<header>
+  <div style="text-align:center; width:100%; display:block; margin:auto;">
+  <a href="/">
+</a>
+</div><!-- #branding -->
+  <h1>Model Information</h1>
+</header>
+<br>
+<div style="text-align: justify">
+  <p>
+    Daily simulations are conducted using the <a href="https://www.flexpart.eu">FLEXPART</a> Lagrangian transport model,
+    using satellite-derived real-time fire emissions from the <a href="https://atmosphere.copernicus.eu/global-fire-emissions">CAMS GFAS (Global Fire Assimilation System)</a> dataset,
+    and meteorology from the <a href="https://www.ncdc.noaa.gov/data-access/model-data/model-datasets/global-forcast-system-gfs">NCEP Global Forecast System (GFS4)</a> data.
+    <br>
+    Within FLEXPART, particles are released from locations matching the 0.1° gridcells in GFAS, with an attached PM2.5 mass equal
+    to the GFAS emission. GFAS gives daily emissions which been released between midnight and 11pm within the FLEXPART simulation.
+    Particles are released between the surface and 750m, to represent the vertical smoke plume.
+    <br>
+    Particle dispersion is driven by GFS meteorology at 0.5 degree horizontal resolution. The resultant distributions show the
+    fire-sourced PM2.5 surface concentrations, at ?? resolution. Note that this does not represent total PM2.5 concentrations,
+    since the non-fire sourced PM2.5 contribution is not explicitly simulated.
+  </p>
+</div><!-- .entry-content -->
+{% endblock %}
+
+</html>

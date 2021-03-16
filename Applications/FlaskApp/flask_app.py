@@ -220,18 +220,6 @@ def about():
 def contact():
     return render_template('contact.html.j2')
 
-@main_bp.route('/glossary', methods=["GET"])
-def glossary():
-    return render_template('glossary.html.j2')
-
-@main_bp.route('/infopage1', methods=["GET"])
+@main_bp.route('/modelinfo', methods=["GET"])
 def infopage1():
-    return render_template('infopage1.html.j2')
-
-@main_bp.route('/infopage2', methods=["GET"])
-def infopage2():
-    return render_template('infopage2.html.j2')
-
-@main_bp.route('/infopage3', methods=["GET"])
-def infopage3():
-    return render_template('infopage3.html.j2')
+    return render_template('modelinfo.html.j2')
