@@ -3,12 +3,6 @@
 {% block body %}
 
 <div style="text-align: center">
-  <p>
-    This tool displays simulated distributions of particulate matter PM2.5 pollution sourced from fire
-    emissions in the Indonesia region. Information is available for the previous 6-day period, updated
-    automatically. See “About” for further information on how these distributions are produced
-  </p>
-
   <p id=p1></p><br>
 </div><!-- .entry-content -->
 <img src onerror='init()'>
@@ -17,13 +11,12 @@
   <p id=p2></p>
 </div>
 <p>
-  This tool was developed as part of the Faze-In (Fire Haze monitoring in near-real time for Indonesia: Capacity building and prototyping) and TRANSFORM ( ) projects, with funding from the Newton Fund and Research England.
+
 </p>
 
 <script>
 
-var stage, spriteCount, spriteDays, sheet, sheetHeight, sheetWidth;
-var endOfSprite, spriteData, animation, slider
+var stage, slider, animation, loader;
 
 function init() {
 
@@ -32,56 +25,121 @@ function init() {
 	createjs.Touch.enable(stage);
 	stage.mouseMoveOutside = true;
 
-  sheet = new Image();
-  sheet.src = "/static/sprites/spritesheet.png";
-  sheet.style.position = "absolute";
-  sheet.style.left = -9999;             // Image width must not exceed 9999 pixels
-  sheet.style.visibility = "hidden";    // Maybe you can remove this
-  document.body.appendChild(sheet);
-  sheetHeight = sheet.naturalHeight;
-  sheetWidth = sheet.naturalWidth;
-  spriteDays = 6;//sheetHeight / 600;
-  document.body.removeChild(sheet);     // Removes the image from the DOM (This does not destroy the image element)
+  var manifest = [
+    {src: "spritesheet.png", id: "maps"}
+  ];
 
-  document.getElementById('p1').innerHTML = "Animation for the last "+spriteDays+" days";
+  //refresh when spritesheet loaded
+  loader = new createjs.LoadQueue(false);
+  loader.addEventListener("complete", handleComplete);
+  loader.loadManifest(manifest, true, "/static/sprites/");
+}
 
-  spriteCount = 8 * spriteDays;
+function handleComplete() {
 
-  endOfSprite = spriteCount - 1;
+  var spriteDays = 6;
 
-  spriteData = new createjs.SpriteSheet({
+  document.getElementById('p1').innerHTML = "<br>This tool displays simulated distributions of particulate matter PM2.5 pollution sourced from fire emissions in the Indonesia region.<br> Information is available for the previous "+spriteDays+"-day period, updated automatically.<br> See “About” for further information on how these distributions are produced.";
+
+  var spriteCount = 8 * spriteDays;
+
+  var endOfSprite = spriteCount - 1;
+
+  var framesList = [];
+  for (var i = 0; i <= endOfSprite; i++) {
+      framesList.push(i);
+  };
+
+  //Define spritesheet and running animation
+
+  var spriteData = new createjs.SpriteSheet({
     framerate:16,
-    "images":["/static/sprites/spritesheet.png"],
+    "images":[loader.getResult("maps")],
     "frames": {"height": 600, "count": spriteCount, "width": 675},
 		"animations": {
-			"playall": [0, 47, "playall", 1.5],
+			"run": {
+        frames:framesList,
+        next: false
+      }
 		}
   });
 
+  animation = new createjs.Sprite(spriteData, "run");
 
-  animation = new createjs.Sprite(spriteData, "playall");
+  createjs.Ticker.addEventListener("tick", tick);
 
-  stage.addChild(animation);
-  //stage.update();
+  //Define the slider, using the Slider object from /static/scripts/Slider.js
 
-  slider = new Slider(0, endOfSprite, 675, 35).set({x: 0, y: 650, value: 0});
-  stage.update();
+  slider = new Slider(0, endOfSprite, 645, 35).set({x: 15, y: 625, value: 0});
 
-  animation.gotoAndPlay("playall");
-  stage.update();
-  //document.getElementById('p2').innerHTML = "Current frame is "+animation.currentFrame+" and slider value is "+slider.value;
-  stage.update();
+  //Build the play button
+
+  var background = new createjs.Shape();
+  background.name = "background";
+  background.graphics.beginFill("#646483").drawRoundRect(0, 0, 120, 40, 10);
+
+  var label = new createjs.Text("Play", "bold 24px Arial", "#FFFFFF");
+  label.name = "label";
+  label.textAlign = "center";
+  label.textBaseline = "middle";
+  label.x = 120/2;
+  label.y = 40/2;
+
+  var button = new createjs.Container();
+  button.name = "button";
+  button.x = 15;
+  button.y = 680;
+  button.addChild(background, label);
+  // setting mouseChildren to false will cause events to be dispatched directly from the button instead of its children.
+  button.mouseChildren = false;
+
+  // set up listeners for the play button:
+  var targets = [button];
+  for (var i=0; i<targets.length; i++) {
+  	var target = targets[i];
+  	target.addEventListener("click", handleClick, false);
+  	target.addEventListener("click", handleClick, true);
+  }
+
+  //Add instructive text for slider
+
+  var text = new createjs.Text();
+  text.set({
+    text: "or move slider to desired position to examine an individual frame.",
+    font: "bold 18px Arial",
+    color: "#1f1f2d",
+    x: 150,
+    y: 680,
+    lineWidth: 490
+  });
 
 
+  //Add objects to canvas, and update
+  stage.addChild(animation, slider, button, text);
+
+	stage.update();
+
+}
+
+// Play button
+function handleClick(event) {
+  animation.gotoAndPlay("run");
+}
+
+
+//General callback
+function tick(event) {
+
+  // moves slider while animation running
+  slider.value = animation.currentFrame;
+
+  // move animation with slider
   slider.on("change", function() {
     animation.gotoAndStop(slider.value);
-    //document.getElementById('p2').innerHTML = "Current frame is "+animation.currentFrame+" and slider value is "+slider.value;
     stage.update();
   });
 
-	stage.addChild(slider);
-	stage.update();
-
+  stage.update(event);
 }
 
 </script>
